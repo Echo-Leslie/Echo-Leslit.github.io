@@ -1,0 +1,76 @@
+---
+layout: default
+---
+<div id="container">
+
+	{% for category in site.data.categories %}	
+	<div class="category">
+		<div class="category-title" onclick="setCategory('{{ category.name }}')">
+			<span>{{ category.name }}</span>
+		</div>
+		
+		{% for photo in site.data.photos %}
+		{% if photo.categories == category.name %}
+		<div class="img-frame" style="display:none" rel="{{ photo.categories }}">
+			<div class="img-wrapper">
+				<img class="feat-image" src={{ "/images/" | prepend: site.baseurl | append: photo.img }} alt="{{photo.title}}"></img>
+			</div>
+			<div class="text-wrapper">
+				<p>文字描述</p>
+			</div>
+		</div>
+		{% endif %}
+		{% endfor %}
+	</div>
+	{% endfor %}
+
+</div>
+
+<style>
+.img-frame {
+	margin: 20px;
+	border: 2px solid #F3D278;
+	border-radius: 5%;
+}
+
+.img-wrapper {
+	padding: 50px;
+	display: flex;
+	text-align: center;
+}
+
+.text-wrapper {
+	padding: 0 50px;
+}
+
+.category-title {
+	background: #D7F970;
+	padding: 5px;
+	font-size: 1.2rem;
+	cursor: pointer;
+}
+
+.category + .category {
+	margin-top: 10px;
+}
+</style>
+
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+
+<script>
+function setCategory(name) {
+	const imgs = document.getElementsByClassName("img-frame");
+	for(let frame of imgs) {
+		let rel = frame.getAttribute('rel');
+		if(rel == name) {
+			if(frame.style.display == "none") {
+				frame.style.display = ""
+			}else {
+				frame.style.display = "none"
+			}
+		}else {
+			frame.style.display = "none"
+		}
+	}
+}
+</script>
